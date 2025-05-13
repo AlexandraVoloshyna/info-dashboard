@@ -25,3 +25,4 @@ dist-ssr
 
 task_resources
 tasks.md
+.env
