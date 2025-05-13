@@ -1,6 +1,6 @@
 import type { CompanyInfo } from '../types';
 
-const BASE_URL = './companies-lookup.json';
+const BASE_URL = import.meta.env.VITE_BASE_URL;;
 
 class FakeApiService {
   async getAll({ ticker }: { ticker?: string }): Promise<CompanyInfo[]> {
