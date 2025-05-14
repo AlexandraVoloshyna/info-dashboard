@@ -1,4 +1,4 @@
-## 📋 Requirements
+## 📋 Prerequisites
 
 Make sure the following are installed:
 
