@@ -1,16 +1,15 @@
-import { useEffect, useState, } from 'react';
-// import type { CompanyInfo } from './types';
-import { fakeApiService } from './api';
+import { CompaniesInfoMosaic } from './components';
+import { useFetchData } from './hooks';
+import { convertArrayKeysToCamelCase } from './utils';
 
 export const App = () => {
-  // const [items, setItems] = useState<CompanyInfo[]>([]);
-   const [search] = useState('');
-
-  useEffect(() => {
-    fakeApiService
-      .getAll({ticker: search})
-      .then(res => console.log(res))
-      .catch(console.error);
-  }, [search]);
-  return <div></div>;
+  const { items, selectOptions } = useFetchData();
+  return (
+    <div className="my-6">
+      <CompaniesInfoMosaic
+        options={selectOptions}
+        data={convertArrayKeysToCamelCase(items)}
+      />
+    </div>
+  );
 };

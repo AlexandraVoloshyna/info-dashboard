@@ -1,20 +1,20 @@
-import type { CompanyInfo } from '../types';
+import type { CompanyInfoRaw, SelectOption } from '../types';
+import { tickerSelectOptions } from '../utils';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 class FakeApiService {
-  async getAll({ ticker }: { ticker?: string }): Promise<CompanyInfo[]> {
+  async getAll(): Promise<CompanyInfoRaw[]> {
     const response = await fetch(BASE_URL);
     if (!response.ok) throw new Error('Failed to fetch data');
 
-    const data: CompanyInfo[] = await response.json();
+    const data: CompanyInfoRaw[] = await response.json();
 
-    if (!ticker) return data;
-
-    const searchTicker = ticker.toLowerCase();
-    return data.filter(item =>
-      item.ticker.toLowerCase().includes(searchTicker),
-    );
+    return data;
+  }
+  async getSelectOptions(): Promise<SelectOption[] | undefined> {
+    const data = await this.getAll();
+    return tickerSelectOptions(data);
   }
 }
 

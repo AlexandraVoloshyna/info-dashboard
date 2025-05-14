@@ -1,4 +1,14 @@
-export type CompanyInfo = {
+type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
+  ? `${T}${Capitalize<SnakeToCamelCase<U>>}`
+  : S;
+
+type CamelizeObject<T> = {
+  [K in keyof T as SnakeToCamelCase<Extract<K, string>>]: T[K] extends object
+    ? CamelizeObject<T[K]>
+    : T[K];
+};
+
+export type CompanyInfoRaw = {
   id: string;
   ticker: string;
   name: string;
@@ -19,9 +29,9 @@ export type CompanyInfo = {
   hq_address_postal_code: string;
   entity_legal_form: string;
   cik: string;
-  latest_filing_date: string; // ISO date string
-  hq_state: string;
+  latest_filing_date: string;
   hq_country: string;
+  hq_state: string;
   inc_state: string;
   inc_country: string;
   employees: number;
@@ -31,12 +41,25 @@ export type CompanyInfo = {
   industry_group: string;
   template: string;
   standardized_active: boolean;
-  first_fundamental_date: string; // ISO date string
-  last_fundamental_date: string; // ISO date string
-  first_stock_price_date: string; // ISO date string
-  last_stock_price_date: string; // ISO date string
+  first_fundamental_date: string;
+  last_fundamental_date: string;
+  first_stock_price_date: string;
+  last_stock_price_date: string;
   thea_enabled: boolean;
   legacy_sector: string;
   legacy_industry_category: string;
   legacy_industry_group: string;
+};
+
+export type CompanyInfoProps = CamelizeObject<CompanyInfoRaw>;
+
+export type SelectOption = {
+  label: string;
+  value: string;
+};
+
+export type TickerSelectProps = {
+  options?: SelectOption[];
+  value: string;
+  onChange: (val: string) => void;
 };
