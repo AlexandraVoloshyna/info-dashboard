@@ -4,8 +4,6 @@ import type { MosaicNode } from 'react-mosaic-component';
 
 type MosaicLayoutResult = {
   mosaicLayout: MosaicNode<string> | null;
-  mosaicIdMap: Record<string, CompanyInfoProps>;
-  
 };
 
 export const useMosaicLayout = (
@@ -13,17 +11,14 @@ export const useMosaicLayout = (
 ): MosaicLayoutResult => {
   return useMemo(() => {
     if (data.length < 3) {
-      return { mosaicLayout: null, mosaicIdMap: {}};
+      return { mosaicLayout: null, mosaicIdMap: {} };
     }
 
     const sliced = data.slice(0, 3);
-    const idMap: Record<string, CompanyInfoProps> = {};
-    const tickers: Record<string, string> = {};
 
-    const ids = sliced.map((item, i) => {
+    const ids = sliced.map((_, i) => {
       const id = `company-${i}`;
-      idMap[id] = item;
-      tickers[id] = item.ticker; 
+
       return id;
     });
 
@@ -36,6 +31,6 @@ export const useMosaicLayout = (
         second: ids[2],
       },
     };
-    return { mosaicLayout: layout, mosaicIdMap: idMap, };
+    return { mosaicLayout: layout };
   }, [data]);
 };

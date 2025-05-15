@@ -12,8 +12,9 @@ type Props = {
 };
 
 export const CompaniesInfoMosaic = ({ data, options }: Props) => {
-  const { mosaicLayout, mosaicIdMap } = useMosaicLayout(data);
+  const { mosaicLayout } = useMosaicLayout(data);
   const { handleTickerChange, selectedTickers } = useTickersSelect();
+
 
   const getCompanyData = useCallback(
     (ticker: string) => data.find(company => company.id === ticker),
@@ -25,14 +26,14 @@ export const CompaniesInfoMosaic = ({ data, options }: Props) => {
       <Mosaic<string>
         renderTile={(id, path) => {
           const ticker = selectedTickers[id];
-          const companyData = ticker ? getCompanyData(ticker) : mosaicIdMap[id];
+          const companyData =  getCompanyData(ticker);
           return (
             <MosaicWindow<string>
               title={companyData?.name as string}
               toolbarControls={
                 <TickerSelect
                   options={options}
-                  value={ticker || ''}
+                  value={ticker}
                   onChange={newTicker => handleTickerChange(id, newTicker)}
                 />
               }

@@ -24,7 +24,6 @@ export const TickerSelect = ({
             {opt.label}
           </option>
         ))}
-        {value && <option value="">Reset Option</option>}
       </select>
     </form>
   );
